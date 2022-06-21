@@ -1,0 +1,986 @@
+module name=simple_ex, target=x86-64-linux-avx-avx2-f16c-fma-opencl-sse41
+buffer opencl_buf = {...}
+
+buffer opencl_gpu_source_kernels = {
+/*OpenCL C x86-64-linux-avx-avx2-f16c-fma-opencl-sse41*/
+#pragma OPENCL FP_CONTRACT ON
+inline float float_from_bits(unsigned int x) {return as_float(x);}
+inline float nan_f32() { return NAN; }
+inline float neg_inf_f32() { return -INFINITY; }
+inline float inf_f32() { return INFINITY; }
+inline bool is_nan_f32(float x) {return isnan(x); }
+inline bool is_inf_f32(float x) {return isinf(x); }
+inline bool is_finite_f32(float x) {return isfinite(x); }
+#define sqrt_f32 sqrt 
+#define sin_f32 sin 
+#define cos_f32 cos 
+#define exp_f32 exp 
+#define log_f32 log 
+#define abs_f32 fabs 
+#define floor_f32 floor 
+#define ceil_f32 ceil 
+#define round_f32 round 
+#define trunc_f32 trunc 
+#define pow_f32 pow
+#define asin_f32 asin 
+#define acos_f32 acos 
+#define tan_f32 tan 
+#define atan_f32 atan 
+#define atan2_f32 atan2
+#define sinh_f32 sinh 
+#define asinh_f32 asinh 
+#define cosh_f32 cosh 
+#define acosh_f32 acosh 
+#define tanh_f32 tanh 
+#define atanh_f32 atanh 
+#define fast_inverse_f32 native_recip 
+#define fast_inverse_sqrt_f32 native_rsqrt 
+#define halide_unused(x)
+
+__kernel void _at_least_one_kernel(int x) { }
+// Address spaces for _kernel_conv1_s0_y_yo___block_id_y
+#define __address_space__bias __global
+#define __address_space__conv1 __global
+__kernel void _kernel_conv1_s0_y_yo___block_id_y(
+ __address_space__bias const float *restrict _bias,
+ __address_space__conv1 float *restrict _conv1,
+ const int _output_extent_0,
+ const int _output_extent_1,
+ const int _output_extent_2,
+ const int _t153,
+ const int _t154,
+ const int _t155,
+ __local int16* __shared)
+{
+ int _conv1_s0_y_yo___block_id_y = get_group_id(1);
+ int _conv1_s0_x_xo___block_id_x = get_group_id(0);
+ int ___thread_id_y = get_local_id(1);
+ int ___thread_id_x = get_local_id(0);
+ int _1 = _conv1_s0_y_yo___block_id_y * 8;
+ int _2 = _output_extent_2 + -6;
+ int _3 = min(_1, _2);
+ int _4 = _conv1_s0_x_xo___block_id_x * 16;
+ int _5 = _output_extent_1 + -14;
+ int _6 = min(_4, _5);
+ int _7 = ___thread_id_x + _6;
+ int _8 = _7 * _output_extent_0;
+ int _9 = ___thread_id_y + _3;
+ int _10 = _9 * _t153;
+ int _11 = _10 + _t155;
+ int _12 = _8 + _11;
+ for (int _conv1_s0_c_rebased = 0; _conv1_s0_c_rebased < 0 + _output_extent_0; _conv1_s0_c_rebased++)
+ {
+  float _13 = _bias[_t154];
+  int _14 = _conv1_s0_c_rebased + _12;
+  _conv1[_14] = _13;
+ } // for _conv1_s0_c_rebased
+} // kernel _kernel_conv1_s0_y_yo___block_id_y
+#undef __address_space__bias
+#undef __address_space__conv1
+// Address spaces for _kernel_conv1_s1_y_yo___block_id_y
+#define __address_space__weight_1 __global
+#define __address_space__input __global
+#define __address_space__conv1 __global
+__kernel void _kernel_conv1_s1_y_yo___block_id_y(
+ __address_space__weight_1 const float *restrict _weight_1,
+ __address_space__input const float *restrict _input,
+ __address_space__conv1 float *restrict _conv1,
+ const int _t191,
+ const int _t190,
+ const int _t192,
+ const int _t194,
+ const int _t198,
+ const int _t199,
+ const int _t202,
+ const int _t203,
+ const int _t205,
+ const int _t206,
+ const int _t207,
+ const int _t209,
+ const int _t210,
+ const int _t211,
+ const int _t212,
+ const int _t213,
+ const int _weight_1_min_0,
+ const int _weight_1_stride_1,
+ const int _weight_1_stride_2,
+ const int _t158,
+ const int _input_min_1,
+ const int _input_min_2,
+ const int _input_min_3,
+ const int _input_stride_1,
+ const int _input_stride_2,
+ const int _input_stride_3,
+ const int _output_extent_0,
+ const int _output_min_0,
+ const int _output_min_1,
+ const int _output_min_2,
+ const int _input_min_0,
+ const int _t160,
+ const int _t162,
+ const int _t165,
+ const int _t167,
+ const int _t174,
+ const int _t178,
+ const int _t182,
+ const int _t183,
+ const int _t184,
+ const int _t185,
+ __local int16* __shared)
+{
+ int _conv1_s1_y_yo___block_id_y = get_group_id(1);
+ int _conv1_s1_x_xo___block_id_x = get_group_id(0);
+ int ___thread_id_y = get_local_id(1);
+ int ___thread_id_x = get_local_id(0);
+ bool _15 = _t199 <= _conv1_s1_y_yo___block_id_y;
+ bool _16 = _conv1_s1_y_yo___block_id_y < _t158;
+ bool _17 = _15 && _16;
+ if (_17)
+ {
+  bool _18 = _t198 <= _conv1_s1_x_xo___block_id_x;
+  bool _19 = _conv1_s1_x_xo___block_id_x < _t160;
+  bool _20 = _18 && _19;
+  if (_20)
+  {
+   int _21 = _conv1_s1_x_xo___block_id_x * 16;
+   int _22 = _conv1_s1_y_yo___block_id_y * 8;
+   int _23 = ___thread_id_x + _21;
+   int _24 = _23 * _output_extent_0;
+   int _25 = ___thread_id_y + _22;
+   int _26 = _25 * _t165;
+   int _27 = _26 + _t211;
+   int _28 = _24 + _27;
+   int _29 = _output_min_2 + _22;
+   int _30 = _29 + ___thread_id_y;
+   int _31 = _output_min_1 + _21;
+   int _32 = _31 + ___thread_id_x;
+   for (int _conv1_s1_c_rebased = 0; _conv1_s1_c_rebased < 0 + _t212; _conv1_s1_c_rebased++)
+   {
+    int _33 = _t182 + -1;
+    int _34 = _conv1_s1_c_rebased + _output_min_0;
+    int _35 = min(_33, _34);
+    int _36 = max(_35, _input_min_0);
+    int _37 = _36 - _t167;
+    int _38 = _conv1_s1_c_rebased + _28;
+    for (int _conv1_s1_r__z = 0; _conv1_s1_r__z < 0 + 3; _conv1_s1_r__z++)
+    {
+     int _39 = _t185 + -1;
+     int _40 = min(_39, _conv1_s1_r__z);
+     int _41 = max(_40, _input_min_3);
+     int _42 = _41 * _input_stride_3;
+     int _43 = _42 + _37;
+     int _44 = _conv1_s1_r__z + _t202;
+     for (int _conv1_s1_r__y = 0; _conv1_s1_r__y < 0 + 7; _conv1_s1_r__y++)
+     {
+      int _45 = _conv1_s1_r__y + _30;
+      int _46 = _45 * _input_stride_2;
+      int _47 = _46 + _43;
+      int _48 = _conv1_s1_r__y * _weight_1_stride_2;
+      int _49 = _48 + _44;
+      for (int _conv1_s1_r__x = 0; _conv1_s1_r__x < 0 + 7; _conv1_s1_r__x++)
+      {
+       float _50 = _conv1[_38];
+       int _51 = _conv1_s1_r__x + _32;
+       int _52 = _51 * _input_stride_1;
+       int _53 = _52 + _47;
+       float _54 = _input[_53];
+       int _55 = _conv1_s1_r__x * _weight_1_stride_1;
+       int _56 = _55 + _49;
+       float _57 = _weight_1[_56];
+       float _58 = _54 * _57;
+       float _59 = float_from_bits(1004464476 /* 0.00680272 */);
+       float _60 = _58 * _59;
+       float _61 = _50 + _60;
+       _conv1[_38] = _61;
+      } // for _conv1_s1_r__x
+     } // for _conv1_s1_r__y
+    } // for _conv1_s1_r__z
+   } // for _conv1_s1_c_rebased
+   int _62 = _conv1_s1_x_xo___block_id_x * 16;
+   int _63 = _conv1_s1_y_yo___block_id_y * 8;
+   int _64 = ___thread_id_x + _62;
+   int _65 = _64 * _output_extent_0;
+   int _66 = ___thread_id_y + _63;
+   int _67 = _66 * _t165;
+   int _68 = _t211 + _t212;
+   int _69 = _67 + _68;
+   int _70 = _65 + _69;
+   int _71 = _t207 - _t191;
+   int _72 = _71 - _t192;
+   int _73 = _72 - _t190;
+   int _74 = _73 - _weight_1_min_0;
+   int _75 = _74 + _t213;
+   int _76 = _output_min_2 + _63;
+   int _77 = _76 + ___thread_id_y;
+   int _78 = _output_min_1 + _62;
+   int _79 = _78 + ___thread_id_x;
+   for (int _conv1_s1_c_rebased = 0; _conv1_s1_c_rebased < 0 + _t203; _conv1_s1_c_rebased++)
+   {
+    int _80 = _conv1_s1_c_rebased + _70;
+    int _81 = _conv1_s1_c_rebased + _t205;
+    for (int _conv1_s1_r__z = 0; _conv1_s1_r__z < 0 + _t194; _conv1_s1_r__z++)
+    {
+     int _82 = _t185 + -1;
+     int _83 = min(_82, _conv1_s1_r__z);
+     int _84 = max(_83, _input_min_3);
+     int _85 = _84 * _input_stride_3;
+     int _86 = _85 + _81;
+     int _87 = _conv1_s1_r__z + _t202;
+     for (int _conv1_s1_r__y = 0; _conv1_s1_r__y < 0 + 7; _conv1_s1_r__y++)
+     {
+      int _88 = _conv1_s1_r__y + _77;
+      int _89 = _88 * _input_stride_2;
+      int _90 = _89 + _86;
+      int _91 = _conv1_s1_r__y * _weight_1_stride_2;
+      int _92 = _91 + _87;
+      for (int _conv1_s1_r__x = 0; _conv1_s1_r__x < 0 + 7; _conv1_s1_r__x++)
+      {
+       float _93 = _conv1[_80];
+       int _94 = _conv1_s1_r__x + _79;
+       int _95 = _94 * _input_stride_1;
+       int _96 = _95 + _90;
+       float _97 = _input[_96];
+       int _98 = _conv1_s1_r__x * _weight_1_stride_1;
+       int _99 = _98 + _92;
+       float _100 = _weight_1[_99];
+       float _101 = _97 * _100;
+       float _102 = float_from_bits(1004464476 /* 0.00680272 */);
+       float _103 = _101 * _102;
+       float _104 = _93 + _103;
+       _conv1[_80] = _104;
+      } // for _conv1_s1_r__x
+     } // for _conv1_s1_r__y
+    } // for _conv1_s1_r__z
+    int _105 = _conv1_s1_c_rebased + _70;
+    int _106 = _conv1_s1_c_rebased + _t205;
+    for (int _conv1_s1_r__z_rebased = 0; _conv1_s1_r__z_rebased < 0 + _t174; _conv1_s1_r__z_rebased++)
+    {
+     int _107 = _conv1_s1_r__z_rebased + _t194;
+     int _108 = _107 * _input_stride_3;
+     int _109 = _108 + _106;
+     int _110 = _conv1_s1_r__z_rebased + _t206;
+     for (int _conv1_s1_r__y = 0; _conv1_s1_r__y < 0 + 7; _conv1_s1_r__y++)
+     {
+      int _111 = _conv1_s1_r__y + _77;
+      int _112 = _111 * _input_stride_2;
+      int _113 = _112 + _109;
+      int _114 = _conv1_s1_r__y * _weight_1_stride_2;
+      int _115 = _114 + _110;
+      for (int _conv1_s1_r__x = 0; _conv1_s1_r__x < 0 + 7; _conv1_s1_r__x++)
+      {
+       float _116 = _conv1[_105];
+       int _117 = _conv1_s1_r__x + _79;
+       int _118 = _117 * _input_stride_1;
+       int _119 = _118 + _113;
+       float _120 = _input[_119];
+       int _121 = _conv1_s1_r__x * _weight_1_stride_1;
+       int _122 = _121 + _115;
+       float _123 = _weight_1[_122];
+       float _124 = _120 * _123;
+       float _125 = float_from_bits(1004464476 /* 0.00680272 */);
+       float _126 = _124 * _125;
+       float _127 = _116 + _126;
+       _conv1[_105] = _127;
+      } // for _conv1_s1_r__x
+     } // for _conv1_s1_r__y
+    } // for _conv1_s1_r__z_rebased
+    int _128 = _conv1_s1_c_rebased + _70;
+    int _129 = _conv1_s1_c_rebased + _t205;
+    for (int _conv1_s1_r__z_rebased = 0; _conv1_s1_r__z_rebased < 0 + _t178; _conv1_s1_r__z_rebased++)
+    {
+     int _130 = _t185 + -1;
+     int _131 = _conv1_s1_r__z_rebased + _t207;
+     int _132 = min(_130, _131);
+     int _133 = max(_132, _input_min_3);
+     int _134 = _133 * _input_stride_3;
+     int _135 = _134 + _129;
+     int _136 = _conv1_s1_r__z_rebased + _75;
+     for (int _conv1_s1_r__y = 0; _conv1_s1_r__y < 0 + 7; _conv1_s1_r__y++)
+     {
+      int _137 = _conv1_s1_r__y + _77;
+      int _138 = _137 * _input_stride_2;
+      int _139 = _138 + _135;
+      int _140 = _conv1_s1_r__y * _weight_1_stride_2;
+      int _141 = _140 + _136;
+      for (int _conv1_s1_r__x = 0; _conv1_s1_r__x < 0 + 7; _conv1_s1_r__x++)
+      {
+       float _142 = _conv1[_128];
+       int _143 = _conv1_s1_r__x + _79;
+       int _144 = _143 * _input_stride_1;
+       int _145 = _144 + _139;
+       float _146 = _input[_145];
+       int _147 = _conv1_s1_r__x * _weight_1_stride_1;
+       int _148 = _147 + _141;
+       float _149 = _weight_1[_148];
+       float _150 = _146 * _149;
+       float _151 = float_from_bits(1004464476 /* 0.00680272 */);
+       float _152 = _150 * _151;
+       float _153 = _142 + _152;
+       _conv1[_128] = _153;
+      } // for _conv1_s1_r__x
+     } // for _conv1_s1_r__y
+    } // for _conv1_s1_r__z_rebased
+   } // for _conv1_s1_c_rebased
+   int _154 = _conv1_s1_x_xo___block_id_x * 16;
+   int _155 = _conv1_s1_y_yo___block_id_y * 8;
+   int _156 = ___thread_id_x + _154;
+   int _157 = _156 * _output_extent_0;
+   int _158 = ___thread_id_y + _155;
+   int _159 = _158 * _t165;
+   int _160 = _159 + _t210;
+   int _161 = _157 + _160;
+   int _162 = _output_min_2 + _155;
+   int _163 = _162 + ___thread_id_y;
+   int _164 = _output_min_1 + _154;
+   int _165 = _164 + ___thread_id_x;
+   for (int _conv1_s1_c_rebased = 0; _conv1_s1_c_rebased < 0 + _t209; _conv1_s1_c_rebased++)
+   {
+    int _166 = _t182 + -1;
+    int _167 = _conv1_s1_c_rebased + _t162;
+    int _168 = min(_166, _167);
+    int _169 = max(_168, _input_min_0);
+    int _170 = _169 - _t167;
+    int _171 = _conv1_s1_c_rebased + _161;
+    for (int _conv1_s1_r__z = 0; _conv1_s1_r__z < 0 + 3; _conv1_s1_r__z++)
+    {
+     int _172 = _t185 + -1;
+     int _173 = min(_172, _conv1_s1_r__z);
+     int _174 = max(_173, _input_min_3);
+     int _175 = _174 * _input_stride_3;
+     int _176 = _175 + _170;
+     int _177 = _conv1_s1_r__z + _t202;
+     for (int _conv1_s1_r__y = 0; _conv1_s1_r__y < 0 + 7; _conv1_s1_r__y++)
+     {
+      int _178 = _conv1_s1_r__y + _163;
+      int _179 = _178 * _input_stride_2;
+      int _180 = _179 + _176;
+      int _181 = _conv1_s1_r__y * _weight_1_stride_2;
+      int _182 = _181 + _177;
+      for (int _conv1_s1_r__x = 0; _conv1_s1_r__x < 0 + 7; _conv1_s1_r__x++)
+      {
+       float _183 = _conv1[_171];
+       int _184 = _conv1_s1_r__x + _165;
+       int _185 = _184 * _input_stride_1;
+       int _186 = _185 + _180;
+       float _187 = _input[_186];
+       int _188 = _conv1_s1_r__x * _weight_1_stride_1;
+       int _189 = _188 + _182;
+       float _190 = _weight_1[_189];
+       float _191 = _187 * _190;
+       float _192 = float_from_bits(1004464476 /* 0.00680272 */);
+       float _193 = _191 * _192;
+       float _194 = _183 + _193;
+       _conv1[_171] = _194;
+      } // for _conv1_s1_r__x
+     } // for _conv1_s1_r__y
+    } // for _conv1_s1_r__z
+   } // for _conv1_s1_c_rebased
+  } // if _20
+  else
+  {
+   int _195 = _conv1_s1_x_xo___block_id_x * 16;
+   int _196 = _conv1_s1_y_yo___block_id_y * 8;
+   int _197 = ___thread_id_x + _195;
+   int _198 = _197 * _output_extent_0;
+   int _199 = ___thread_id_y + _196;
+   int _200 = _199 * _t165;
+   int _201 = _200 + _t211;
+   int _202 = _198 + _201;
+   int _203 = _output_min_2 + _196;
+   int _204 = _203 + ___thread_id_y;
+   int _205 = _output_min_1 + _195;
+   int _206 = _205 + ___thread_id_x;
+   for (int _conv1_s1_c_rebased = 0; _conv1_s1_c_rebased < 0 + _output_extent_0; _conv1_s1_c_rebased++)
+   {
+    int _207 = _t182 + -1;
+    int _208 = _conv1_s1_c_rebased + _output_min_0;
+    int _209 = min(_207, _208);
+    int _210 = max(_209, _input_min_0);
+    int _211 = _210 - _t167;
+    int _212 = _conv1_s1_c_rebased + _202;
+    for (int _conv1_s1_r__z = 0; _conv1_s1_r__z < 0 + 3; _conv1_s1_r__z++)
+    {
+     int _213 = _t185 + -1;
+     int _214 = min(_213, _conv1_s1_r__z);
+     int _215 = max(_214, _input_min_3);
+     int _216 = _215 * _input_stride_3;
+     int _217 = _216 + _211;
+     int _218 = _conv1_s1_r__z + _t202;
+     for (int _conv1_s1_r__y = 0; _conv1_s1_r__y < 0 + 7; _conv1_s1_r__y++)
+     {
+      int _219 = _conv1_s1_r__y + _204;
+      int _220 = _219 * _input_stride_2;
+      int _221 = _220 + _217;
+      int _222 = _conv1_s1_r__y * _weight_1_stride_2;
+      int _223 = _222 + _218;
+      for (int _conv1_s1_r__x = 0; _conv1_s1_r__x < 0 + 7; _conv1_s1_r__x++)
+      {
+       float _224 = _conv1[_212];
+       int _225 = _conv1_s1_r__x + _206;
+       int _226 = _t183 + -1;
+       int _227 = min(_225, _226);
+       int _228 = max(_227, _input_min_1);
+       int _229 = _228 * _input_stride_1;
+       int _230 = _229 + _221;
+       float _231 = _input[_230];
+       int _232 = _conv1_s1_r__x * _weight_1_stride_1;
+       int _233 = _232 + _223;
+       float _234 = _weight_1[_233];
+       float _235 = _231 * _234;
+       float _236 = float_from_bits(1004464476 /* 0.00680272 */);
+       float _237 = _235 * _236;
+       float _238 = _224 + _237;
+       _conv1[_212] = _238;
+      } // for _conv1_s1_r__x
+     } // for _conv1_s1_r__y
+    } // for _conv1_s1_r__z
+   } // for _conv1_s1_c_rebased
+  } // if _20 else
+ } // if _17
+ else
+ {
+  int _239 = _conv1_s1_x_xo___block_id_x * 16;
+  int _240 = _conv1_s1_y_yo___block_id_y * 8;
+  int _241 = ___thread_id_x + _239;
+  int _242 = _241 * _output_extent_0;
+  int _243 = ___thread_id_y + _240;
+  int _244 = _243 * _t165;
+  int _245 = _244 + _t211;
+  int _246 = _242 + _245;
+  int _247 = _output_min_2 + _240;
+  int _248 = _247 + ___thread_id_y;
+  int _249 = _output_min_1 + _239;
+  int _250 = _249 + ___thread_id_x;
+  for (int _conv1_s1_c_rebased = 0; _conv1_s1_c_rebased < 0 + _output_extent_0; _conv1_s1_c_rebased++)
+  {
+   int _251 = _t182 + -1;
+   int _252 = _conv1_s1_c_rebased + _output_min_0;
+   int _253 = min(_251, _252);
+   int _254 = max(_253, _input_min_0);
+   int _255 = _254 - _t167;
+   int _256 = _conv1_s1_c_rebased + _246;
+   for (int _conv1_s1_r__z = 0; _conv1_s1_r__z < 0 + 3; _conv1_s1_r__z++)
+   {
+    int _257 = _t185 + -1;
+    int _258 = min(_257, _conv1_s1_r__z);
+    int _259 = max(_258, _input_min_3);
+    int _260 = _259 * _input_stride_3;
+    int _261 = _260 + _255;
+    int _262 = _conv1_s1_r__z + _t202;
+    for (int _conv1_s1_r__y = 0; _conv1_s1_r__y < 0 + 7; _conv1_s1_r__y++)
+    {
+     int _263 = _conv1_s1_r__y + _248;
+     int _264 = _t184 + -1;
+     int _265 = min(_263, _264);
+     int _266 = max(_265, _input_min_2);
+     int _267 = _266 * _input_stride_2;
+     int _268 = _267 + _261;
+     int _269 = _conv1_s1_r__y * _weight_1_stride_2;
+     int _270 = _269 + _262;
+     for (int _conv1_s1_r__x = 0; _conv1_s1_r__x < 0 + 7; _conv1_s1_r__x++)
+     {
+      float _271 = _conv1[_256];
+      int _272 = _conv1_s1_r__x + _250;
+      int _273 = _t183 + -1;
+      int _274 = min(_272, _273);
+      int _275 = max(_274, _input_min_1);
+      int _276 = _275 * _input_stride_1;
+      int _277 = _276 + _268;
+      float _278 = _input[_277];
+      int _279 = _conv1_s1_r__x * _weight_1_stride_1;
+      int _280 = _279 + _270;
+      float _281 = _weight_1[_280];
+      float _282 = _278 * _281;
+      float _283 = float_from_bits(1004464476 /* 0.00680272 */);
+      float _284 = _282 * _283;
+      float _285 = _271 + _284;
+      _conv1[_256] = _285;
+     } // for _conv1_s1_r__x
+    } // for _conv1_s1_r__y
+   } // for _conv1_s1_r__z
+  } // for _conv1_s1_c_rebased
+ } // if _17 else
+} // kernel _kernel_conv1_s1_y_yo___block_id_y
+#undef __address_space__weight_1
+#undef __address_space__input
+#undef __address_space__conv1
+// Address spaces for _kernel_conv2_s0_y_yo___block_id_y
+#define __address_space__bias __global
+#define __address_space__conv2 __global
+__kernel void _kernel_conv2_s0_y_yo___block_id_y(
+ __address_space__bias const float *restrict _bias,
+ __address_space__conv2 float *restrict _conv2,
+ const int _output_extent_0,
+ const int _output_extent_1,
+ const int _output_extent_2,
+ const int _t285,
+ const int _t286,
+ const int _t287,
+ __local int16* __shared)
+{
+ int _conv2_s0_y_yo___block_id_y = get_group_id(1);
+ int _conv2_s0_x_xo___block_id_x = get_group_id(0);
+ int ___thread_id_y = get_local_id(1);
+ int ___thread_id_x = get_local_id(0);
+ int _286 = _conv2_s0_y_yo___block_id_y * 8;
+ int _287 = _output_extent_2 + -8;
+ int _288 = min(_286, _287);
+ int _289 = _conv2_s0_x_xo___block_id_x * 16;
+ int _290 = _output_extent_1 + -16;
+ int _291 = min(_289, _290);
+ int _292 = ___thread_id_x + _291;
+ int _293 = _292 * _output_extent_0;
+ int _294 = ___thread_id_y + _288;
+ int _295 = _294 * _t285;
+ int _296 = _295 + _t287;
+ int _297 = _293 + _296;
+ for (int _conv2_s0_c_rebased = 0; _conv2_s0_c_rebased < 0 + _output_extent_0; _conv2_s0_c_rebased++)
+ {
+  float _298 = _bias[_t286];
+  int _299 = _conv2_s0_c_rebased + _297;
+  _conv2[_299] = _298;
+ } // for _conv2_s0_c_rebased
+} // kernel _kernel_conv2_s0_y_yo___block_id_y
+#undef __address_space__bias
+#undef __address_space__conv2
+// Address spaces for _kernel_conv2_s1_y_yo___block_id_y
+#define __address_space__conv1 __global
+#define __address_space__conv2 __global
+#define __address_space__weight_2 __global
+__kernel void _kernel_conv2_s1_y_yo___block_id_y(
+ __address_space__conv1 const float *restrict _conv1,
+ __address_space__conv2 float *restrict _conv2,
+ __address_space__weight_2 const float *restrict _weight_2,
+ const int _conv1_stride_3,
+ const int _output_extent_0,
+ const int _t291,
+ const int _t292,
+ const int _t295,
+ const int _t296,
+ const int _weight_2_stride_1,
+ const int _weight_2_stride_2,
+ __local int16* __shared)
+{
+ int _conv2_s1_y_yo___block_id_y = get_group_id(1);
+ int _conv2_s1_x_xo___block_id_x = get_group_id(0);
+ int ___thread_id_y = get_local_id(1);
+ int ___thread_id_x = get_local_id(0);
+ int _300 = _conv2_s1_x_xo___block_id_x * 16;
+ int _301 = _300 + ___thread_id_x;
+ int _302 = _conv2_s1_y_yo___block_id_y * 8;
+ int _303 = _302 + ___thread_id_y;
+ int _304 = _output_extent_0 * _301;
+ int _305 = _t291 * _303;
+ int _306 = _305 + _t295;
+ int _307 = _304 + _306;
+ for (int _conv2_s1_c_rebased = 0; _conv2_s1_c_rebased < 0 + _output_extent_0; _conv2_s1_c_rebased++)
+ {
+  int _308 = _conv2_s1_c_rebased + _307;
+  for (int _conv2_s1_R__z = 0; _conv2_s1_R__z < 0 + 64; _conv2_s1_R__z++)
+  {
+   int _309 = _conv1_stride_3 * _conv2_s1_R__z;
+   int _310 = _309 + _conv2_s1_c_rebased;
+   int _311 = _conv2_s1_R__z + _t296;
+   for (int _conv2_s1_R__y = 0; _conv2_s1_R__y < 0 + 3; _conv2_s1_R__y++)
+   {
+    int _312 = _conv2_s1_R__y + _303;
+    int _313 = _312 * _t292;
+    int _314 = _313 + _310;
+    int _315 = _conv2_s1_R__y * _weight_2_stride_2;
+    int _316 = _315 + _311;
+    for (int _conv2_s1_R__x = 0; _conv2_s1_R__x < 0 + 3; _conv2_s1_R__x++)
+    {
+     float _317 = _conv2[_308];
+     int _318 = _conv2_s1_R__x + _301;
+     int _319 = _318 * _output_extent_0;
+     int _320 = _319 + _314;
+     float _321 = _conv1[_320];
+     int _322 = _conv2_s1_R__x * _weight_2_stride_1;
+     int _323 = _322 + _316;
+     float _324 = _weight_2[_323];
+     float _325 = _321 * _324;
+     float _326 = float_from_bits(967257861 /* 0.000318878 */);
+     float _327 = _325 * _326;
+     float _328 = _317 + _327;
+     _conv2[_308] = _328;
+    } // for _conv2_s1_R__x
+   } // for _conv2_s1_R__y
+  } // for _conv2_s1_R__z
+ } // for _conv2_s1_c_rebased
+} // kernel _kernel_conv2_s1_y_yo___block_id_y
+#undef __address_space__conv1
+#undef __address_space__conv2
+#undef __address_space__weight_2
+// Address spaces for _kernel_output_s0_y_yo___block_id_y
+#define __address_space__conv2 __global
+#define __address_space__output __global
+__kernel void _kernel_output_s0_y_yo___block_id_y(
+ __address_space__conv2 const float *restrict _conv2,
+ __address_space__output float *restrict _output,
+ const int _output_extent_0,
+ const int _output_extent_1,
+ const int _output_extent_2,
+ const int _output_min_1,
+ const int _output_min_2,
+ const int _output_stride_1,
+ const int _output_stride_2,
+ const int _t309,
+ const int _t311,
+ const int _t312,
+ __local int16* __shared)
+{
+ int _output_s0_y_yo___block_id_y = get_group_id(1);
+ int _output_s0_x_xo___block_id_x = get_group_id(0);
+ int ___thread_id_y = get_local_id(1);
+ int ___thread_id_x = get_local_id(0);
+ int _329 = _output_s0_y_yo___block_id_y * 8;
+ int _330 = _output_extent_2 + -8;
+ int _331 = min(_329, _330);
+ int _332 = _output_s0_x_xo___block_id_x * 16;
+ int _333 = _output_extent_1 + -16;
+ int _334 = min(_332, _333);
+ int _335 = _output_min_1 + _334;
+ int _336 = _335 + ___thread_id_x;
+ int _337 = _336 * _output_stride_1;
+ int _338 = _output_min_2 + _331;
+ int _339 = _338 + ___thread_id_y;
+ int _340 = _339 * _output_stride_2;
+ int _341 = _340 + _t312;
+ int _342 = _337 + _341;
+ int _343 = ___thread_id_x + _334;
+ int _344 = _343 * _output_extent_0;
+ int _345 = ___thread_id_y + _331;
+ int _346 = _345 * _t309;
+ int _347 = _346 + _t311;
+ int _348 = _344 + _347;
+ for (int _output_s0_c_rebased = 0; _output_s0_c_rebased < 0 + _output_extent_0; _output_s0_c_rebased++)
+ {
+  int _349 = _output_s0_c_rebased + _348;
+  float _350 = _conv2[_349];
+  float _351 = float_from_bits(0 /* 0 */);
+  float _352 = max(_350, _351);
+  int _353 = _output_s0_c_rebased + _342;
+  _output[_353] = _352;
+ } // for _output_s0_c_rebased
+} // kernel _kernel_output_s0_y_yo___block_id_y
+#undef __address_space__conv2
+#undef __address_space__output
+ 
+}
+
+external_plus_metadata func simple_ex (input, bias, weight_1, weight_2, output) {
+let opencl = (void *)_halide_buffer_get_host((halide_buffer_t *)opencl_buf.buffer)
+let halide_opencl_initialize_kernels_result = halide_opencl_initialize_kernels(opencl, (void *)_halide_buffer_get_host((halide_buffer_t *)opencl_gpu_source_kernels.buffer), 23235)
+assert(halide_opencl_initialize_kernels_result == 0, halide_opencl_initialize_kernels_result)
+(void *)register_destructor("halide_opencl_finalize_kernels", opencl[0])
+assert((uint64)reinterpret((halide_buffer_t *)weight_2.buffer) != (uint64)0, halide_error_buffer_argument_is_null("weight_2"))
+assert((uint64)reinterpret((halide_buffer_t *)weight_1.buffer) != (uint64)0, halide_error_buffer_argument_is_null("weight_1"))
+assert((uint64)reinterpret((halide_buffer_t *)output.buffer) != (uint64)0, halide_error_buffer_argument_is_null("output"))
+assert((uint64)reinterpret((halide_buffer_t *)input.buffer) != (uint64)0, halide_error_buffer_argument_is_null("input"))
+assert((uint64)reinterpret((halide_buffer_t *)bias.buffer) != (uint64)0, halide_error_buffer_argument_is_null("bias"))
+let bias = (void *)_halide_buffer_get_host((halide_buffer_t *)bias.buffer)
+let bias.type = (uint32)_halide_buffer_get_type((halide_buffer_t *)bias.buffer)
+let bias.dimensions = _halide_buffer_get_dimensions((halide_buffer_t *)bias.buffer)
+let bias.min.0 = _halide_buffer_get_min((halide_buffer_t *)bias.buffer, 0)
+let bias.extent.0 = _halide_buffer_get_extent((halide_buffer_t *)bias.buffer, 0)
+let bias.stride.0 = _halide_buffer_get_stride((halide_buffer_t *)bias.buffer, 0)
+let input = (void *)_halide_buffer_get_host((halide_buffer_t *)input.buffer)
+let input.type = (uint32)_halide_buffer_get_type((halide_buffer_t *)input.buffer)
+let input.dimensions = _halide_buffer_get_dimensions((halide_buffer_t *)input.buffer)
+let input.min.0 = _halide_buffer_get_min((halide_buffer_t *)input.buffer, 0)
+let input.extent.0 = _halide_buffer_get_extent((halide_buffer_t *)input.buffer, 0)
+let input.stride.0 = _halide_buffer_get_stride((halide_buffer_t *)input.buffer, 0)
+let input.min.1 = _halide_buffer_get_min((halide_buffer_t *)input.buffer, 1)
+let input.extent.1 = _halide_buffer_get_extent((halide_buffer_t *)input.buffer, 1)
+let input.stride.1 = _halide_buffer_get_stride((halide_buffer_t *)input.buffer, 1)
+let input.min.2 = _halide_buffer_get_min((halide_buffer_t *)input.buffer, 2)
+let input.extent.2 = _halide_buffer_get_extent((halide_buffer_t *)input.buffer, 2)
+let input.stride.2 = _halide_buffer_get_stride((halide_buffer_t *)input.buffer, 2)
+let input.min.3 = _halide_buffer_get_min((halide_buffer_t *)input.buffer, 3)
+let input.extent.3 = _halide_buffer_get_extent((halide_buffer_t *)input.buffer, 3)
+let input.stride.3 = _halide_buffer_get_stride((halide_buffer_t *)input.buffer, 3)
+let output = (void *)_halide_buffer_get_host((halide_buffer_t *)output.buffer)
+let output.type = (uint32)_halide_buffer_get_type((halide_buffer_t *)output.buffer)
+let output.dimensions = _halide_buffer_get_dimensions((halide_buffer_t *)output.buffer)
+let output.min.0 = _halide_buffer_get_min((halide_buffer_t *)output.buffer, 0)
+let output.extent.0 = _halide_buffer_get_extent((halide_buffer_t *)output.buffer, 0)
+let output.stride.0 = _halide_buffer_get_stride((halide_buffer_t *)output.buffer, 0)
+let output.min.1 = _halide_buffer_get_min((halide_buffer_t *)output.buffer, 1)
+let output.extent.1 = _halide_buffer_get_extent((halide_buffer_t *)output.buffer, 1)
+let output.stride.1 = _halide_buffer_get_stride((halide_buffer_t *)output.buffer, 1)
+let output.min.2 = _halide_buffer_get_min((halide_buffer_t *)output.buffer, 2)
+let output.extent.2 = _halide_buffer_get_extent((halide_buffer_t *)output.buffer, 2)
+let output.stride.2 = _halide_buffer_get_stride((halide_buffer_t *)output.buffer, 2)
+let output.min.3 = _halide_buffer_get_min((halide_buffer_t *)output.buffer, 3)
+let output.extent.3 = _halide_buffer_get_extent((halide_buffer_t *)output.buffer, 3)
+let output.stride.3 = _halide_buffer_get_stride((halide_buffer_t *)output.buffer, 3)
+let weight_1 = (void *)_halide_buffer_get_host((halide_buffer_t *)weight_1.buffer)
+let weight_1.type = (uint32)_halide_buffer_get_type((halide_buffer_t *)weight_1.buffer)
+let weight_1.dimensions = _halide_buffer_get_dimensions((halide_buffer_t *)weight_1.buffer)
+let weight_1.min.0 = _halide_buffer_get_min((halide_buffer_t *)weight_1.buffer, 0)
+let weight_1.extent.0 = _halide_buffer_get_extent((halide_buffer_t *)weight_1.buffer, 0)
+let weight_1.stride.0 = _halide_buffer_get_stride((halide_buffer_t *)weight_1.buffer, 0)
+let weight_1.min.1 = _halide_buffer_get_min((halide_buffer_t *)weight_1.buffer, 1)
+let weight_1.extent.1 = _halide_buffer_get_extent((halide_buffer_t *)weight_1.buffer, 1)
+let weight_1.stride.1 = _halide_buffer_get_stride((halide_buffer_t *)weight_1.buffer, 1)
+let weight_1.min.2 = _halide_buffer_get_min((halide_buffer_t *)weight_1.buffer, 2)
+let weight_1.extent.2 = _halide_buffer_get_extent((halide_buffer_t *)weight_1.buffer, 2)
+let weight_1.stride.2 = _halide_buffer_get_stride((halide_buffer_t *)weight_1.buffer, 2)
+let weight_1.min.3 = _halide_buffer_get_min((halide_buffer_t *)weight_1.buffer, 3)
+let weight_1.extent.3 = _halide_buffer_get_extent((halide_buffer_t *)weight_1.buffer, 3)
+let weight_1.stride.3 = _halide_buffer_get_stride((halide_buffer_t *)weight_1.buffer, 3)
+let weight_2 = (void *)_halide_buffer_get_host((halide_buffer_t *)weight_2.buffer)
+let weight_2.type = (uint32)_halide_buffer_get_type((halide_buffer_t *)weight_2.buffer)
+let weight_2.dimensions = _halide_buffer_get_dimensions((halide_buffer_t *)weight_2.buffer)
+let weight_2.min.0 = _halide_buffer_get_min((halide_buffer_t *)weight_2.buffer, 0)
+let weight_2.extent.0 = _halide_buffer_get_extent((halide_buffer_t *)weight_2.buffer, 0)
+let weight_2.stride.0 = _halide_buffer_get_stride((halide_buffer_t *)weight_2.buffer, 0)
+let weight_2.min.1 = _halide_buffer_get_min((halide_buffer_t *)weight_2.buffer, 1)
+let weight_2.extent.1 = _halide_buffer_get_extent((halide_buffer_t *)weight_2.buffer, 1)
+let weight_2.stride.1 = _halide_buffer_get_stride((halide_buffer_t *)weight_2.buffer, 1)
+let weight_2.min.2 = _halide_buffer_get_min((halide_buffer_t *)weight_2.buffer, 2)
+let weight_2.extent.2 = _halide_buffer_get_extent((halide_buffer_t *)weight_2.buffer, 2)
+let weight_2.stride.2 = _halide_buffer_get_stride((halide_buffer_t *)weight_2.buffer, 2)
+let weight_2.min.3 = _halide_buffer_get_min((halide_buffer_t *)weight_2.buffer, 3)
+let weight_2.extent.3 = _halide_buffer_get_extent((halide_buffer_t *)weight_2.buffer, 3)
+let weight_2.stride.3 = _halide_buffer_get_stride((halide_buffer_t *)weight_2.buffer, 3)
+let bias.extent.0.required = max(output.extent.3 + output.min.3, 64) - min(output.min.3, 0)
+let input.extent.0.required = let t315 = (input.extent.0 + input.min.0) in (max(min(output.extent.0 + output.min.0, t315), input.min.0 + 1) - max(min(t315 + -1, output.min.0), input.min.0))
+let input.min.0.required = max(min((input.extent.0 + input.min.0) + -1, output.min.0), input.min.0)
+let input.extent.1.required = let t316 = (input.extent.1 + input.min.1) in (max(min(((((output.extent.1 + 1)/16)*16) + output.min.1) + 22, t316), input.min.1 + 1) - max(min(t316 + -1, output.min.1), input.min.1))
+let input.min.1.required = max(min((input.extent.1 + input.min.1) + -1, output.min.1), input.min.1)
+let input.extent.2.required = let t317 = (input.extent.2 + input.min.2) in (max(min(((((output.extent.2 + 1)/8)*8) + output.min.2) + 14, t317), input.min.2 + 1) - max(min(t317 + -1, output.min.2), input.min.2))
+let input.min.2.required = max(min((input.extent.2 + input.min.2) + -1, output.min.2), input.min.2)
+let input.extent.3.required.s = let t318 = (input.extent.3 + input.min.3) in (min(t318, 3) - max(min(t318, 1) + -1, input.min.3))
+let input.min.3.required = max(min(input.extent.3 + input.min.3, 1) + -1, input.min.3)
+let output.stride.3.required = max(output.extent.2, 8)*(max(output.extent.1, 16)*output.extent.0)
+if ((uint1)_halide_buffer_is_bounds_query((halide_buffer_t *)bias.buffer)) {
+ (halide_buffer_t *)_halide_buffer_init((halide_buffer_t *)bias.buffer, (halide_dimension_t *)_halide_buffer_get_shape((halide_buffer_t *)bias.buffer), (void *)reinterpret((uint64)0), (uint64)0, (halide_device_interface_t *)reinterpret((uint64)0), 2, 32, 1, (halide_dimension_t *)make_struct(min(output.min.3, 0), bias.extent.0.required, 1, 0), (uint64)0)
+}
+if ((uint1)_halide_buffer_is_bounds_query((halide_buffer_t *)input.buffer)) {
+ let t319 = (input.extent.0.required*input.extent.1.required) in (halide_buffer_t *)_halide_buffer_init((halide_buffer_t *)input.buffer, (halide_dimension_t *)_halide_buffer_get_shape((halide_buffer_t *)input.buffer), (void *)reinterpret((uint64)0), (uint64)0, (halide_device_interface_t *)reinterpret((uint64)0), 2, 32, 4, (halide_dimension_t *)make_struct(input.min.0.required, input.extent.0.required, 1, 0, input.min.1.required, input.extent.1.required, input.extent.0.required, 0, input.min.2.required, input.extent.2.required, t319, 0, input.min.3.required, max(input.extent.3.required.s, 1), t319*input.extent.2.required, 0), (uint64)0)
+}
+if ((uint1)_halide_buffer_is_bounds_query((halide_buffer_t *)output.buffer)) {
+ let t320 = max(output.extent.1, 16) in (halide_buffer_t *)_halide_buffer_init((halide_buffer_t *)output.buffer, (halide_dimension_t *)_halide_buffer_get_shape((halide_buffer_t *)output.buffer), (void *)reinterpret((uint64)0), (uint64)0, (halide_device_interface_t *)reinterpret((uint64)0), 2, 32, 4, (halide_dimension_t *)make_struct(output.min.0, output.extent.0, 1, 0, (min(output.extent.1, 16) + output.min.1) + -16, t320, output.extent.0, 0, (min(output.extent.2, 8) + output.min.2) + -8, max(output.extent.2, 8), t320*output.extent.0, 0, output.min.3, output.extent.3, output.stride.3.required, 0), (uint64)0)
+}
+if ((uint1)_halide_buffer_is_bounds_query((halide_buffer_t *)weight_1.buffer)) {
+ (halide_buffer_t *)_halide_buffer_init((halide_buffer_t *)weight_1.buffer, (halide_dimension_t *)_halide_buffer_get_shape((halide_buffer_t *)weight_1.buffer), (void *)reinterpret((uint64)0), (uint64)0, (halide_device_interface_t *)reinterpret((uint64)0), 2, 32, 4, (halide_dimension_t *)make_struct(0, 3, 1, 0, 0, 7, 3, 0, 0, 7, 21, 0, 0, 64, 147, 0), (uint64)0)
+}
+if ((uint1)_halide_buffer_is_bounds_query((halide_buffer_t *)weight_2.buffer)) {
+ (halide_buffer_t *)_halide_buffer_init((halide_buffer_t *)weight_2.buffer, (halide_dimension_t *)_halide_buffer_get_shape((halide_buffer_t *)weight_2.buffer), (void *)reinterpret((uint64)0), (uint64)0, (halide_device_interface_t *)reinterpret((uint64)0), 2, 32, 4, (halide_dimension_t *)make_struct(0, 64, 1, 0, 0, 3, 64, 0, 0, 3, 192, 0, output.min.3, output.extent.3, 576, 0), (uint64)0)
+}
+if (!((uint1)_halide_buffer_is_bounds_query((halide_buffer_t *)weight_2.buffer) || ((uint1)_halide_buffer_is_bounds_query((halide_buffer_t *)weight_1.buffer) || ((uint1)_halide_buffer_is_bounds_query((halide_buffer_t *)output.buffer) || ((uint1)_halide_buffer_is_bounds_query((halide_buffer_t *)bias.buffer) || (uint1)_halide_buffer_is_bounds_query((halide_buffer_t *)input.buffer)))))) {
+ assert(bias.type == (uint32)73730, halide_error_bad_type("Input buffer bias", bias.type, (uint32)73730))
+ assert(bias.dimensions == 1, halide_error_bad_dimensions("Input buffer bias", bias.dimensions, 1))
+ assert(input.type == (uint32)73730, halide_error_bad_type("Input buffer input", input.type, (uint32)73730))
+ assert(input.dimensions == 4, halide_error_bad_dimensions("Input buffer input", input.dimensions, 4))
+ assert(output.type == (uint32)73730, halide_error_bad_type("Output buffer output", output.type, (uint32)73730))
+ assert(output.dimensions == 4, halide_error_bad_dimensions("Output buffer output", output.dimensions, 4))
+ assert(weight_1.type == (uint32)73730, halide_error_bad_type("Input buffer weight_1", weight_1.type, (uint32)73730))
+ assert(weight_1.dimensions == 4, halide_error_bad_dimensions("Input buffer weight_1", weight_1.dimensions, 4))
+ assert(weight_2.type == (uint32)73730, halide_error_bad_type("Input buffer weight_2", weight_2.type, (uint32)73730))
+ assert(weight_2.dimensions == 4, halide_error_bad_dimensions("Input buffer weight_2", weight_2.dimensions, 4))
+ assert(let t321 = min(output.min.3, 0) in ((bias.min.0 <= t321) && ((t321 + bias.extent.0.required) <= (bias.extent.0 + bias.min.0))), let t322 = min(output.min.3, 0) in halide_error_access_out_of_bounds("Input buffer bias", 0, t322, (t322 + bias.extent.0.required) + -1, bias.min.0, (bias.extent.0 + bias.min.0) + -1))
+ assert(0 <= bias.extent.0, halide_error_buffer_extents_negative("Input buffer bias", 0, bias.extent.0))
+ assert((input.min.0 <= input.min.0.required) && ((input.extent.0.required + input.min.0.required) <= (input.extent.0 + input.min.0)), halide_error_access_out_of_bounds("Input buffer input", 0, input.min.0.required, (input.extent.0.required + input.min.0.required) + -1, input.min.0, (input.extent.0 + input.min.0) + -1))
+ assert(0 <= input.extent.0, halide_error_buffer_extents_negative("Input buffer input", 0, input.extent.0))
+ assert((input.min.1 <= input.min.1.required) && ((input.extent.1.required + input.min.1.required) <= (input.extent.1 + input.min.1)), halide_error_access_out_of_bounds("Input buffer input", 1, input.min.1.required, (input.extent.1.required + input.min.1.required) + -1, input.min.1, (input.extent.1 + input.min.1) + -1))
+ assert(0 <= input.extent.1, halide_error_buffer_extents_negative("Input buffer input", 1, input.extent.1))
+ assert((input.min.2 <= input.min.2.required) && ((input.extent.2.required + input.min.2.required) <= (input.extent.2 + input.min.2)), halide_error_access_out_of_bounds("Input buffer input", 2, input.min.2.required, (input.extent.2.required + input.min.2.required) + -1, input.min.2, (input.extent.2 + input.min.2) + -1))
+ assert(0 <= input.extent.2, halide_error_buffer_extents_negative("Input buffer input", 2, input.extent.2))
+ assert((input.min.3 <= input.min.3.required) && ((max(input.extent.3.required.s, 1) + input.min.3.required) <= (input.extent.3 + input.min.3)), halide_error_access_out_of_bounds("Input buffer input", 3, input.min.3.required, (max(input.extent.3.required.s, 1) + input.min.3.required) + -1, input.min.3, (input.extent.3 + input.min.3) + -1))
+ assert(0 <= input.extent.3, halide_error_buffer_extents_negative("Input buffer input", 3, input.extent.3))
+ assert(0 <= output.extent.0, halide_error_buffer_extents_negative("Output buffer output", 0, output.extent.0))
+ assert(16 <= output.extent.1, let t323 = (output.extent.1 + output.min.1) in halide_error_access_out_of_bounds("Output buffer output", 1, (min(output.extent.1, 16) + output.min.1) + -16, t323 + -1, output.min.1, t323 + -1))
+ assert(8 <= output.extent.2, let t324 = (output.extent.2 + output.min.2) in halide_error_access_out_of_bounds("Output buffer output", 2, (min(output.extent.2, 8) + output.min.2) + -8, t324 + -1, output.min.2, t324 + -1))
+ assert(0 <= output.extent.3, halide_error_buffer_extents_negative("Output buffer output", 3, output.extent.3))
+ assert((weight_1.min.0 <= 0) && (3 <= (weight_1.extent.0 + weight_1.min.0)), halide_error_access_out_of_bounds("Input buffer weight_1", 0, 0, 2, weight_1.min.0, (weight_1.extent.0 + weight_1.min.0) + -1))
+ assert(0 <= weight_1.extent.0, halide_error_buffer_extents_negative("Input buffer weight_1", 0, weight_1.extent.0))
+ assert((weight_1.min.1 <= 0) && (7 <= (weight_1.extent.1 + weight_1.min.1)), halide_error_access_out_of_bounds("Input buffer weight_1", 1, 0, 6, weight_1.min.1, (weight_1.extent.1 + weight_1.min.1) + -1))
+ assert(0 <= weight_1.extent.1, halide_error_buffer_extents_negative("Input buffer weight_1", 1, weight_1.extent.1))
+ assert((weight_1.min.2 <= 0) && (7 <= (weight_1.extent.2 + weight_1.min.2)), halide_error_access_out_of_bounds("Input buffer weight_1", 2, 0, 6, weight_1.min.2, (weight_1.extent.2 + weight_1.min.2) + -1))
+ assert(0 <= weight_1.extent.2, halide_error_buffer_extents_negative("Input buffer weight_1", 2, weight_1.extent.2))
+ assert((weight_1.min.3 <= 0) && (64 <= (weight_1.extent.3 + weight_1.min.3)), halide_error_access_out_of_bounds("Input buffer weight_1", 3, 0, 63, weight_1.min.3, (weight_1.extent.3 + weight_1.min.3) + -1))
+ assert(0 <= weight_1.extent.3, halide_error_buffer_extents_negative("Input buffer weight_1", 3, weight_1.extent.3))
+ assert((weight_2.min.0 <= 0) && (64 <= (weight_2.extent.0 + weight_2.min.0)), halide_error_access_out_of_bounds("Input buffer weight_2", 0, 0, 63, weight_2.min.0, (weight_2.extent.0 + weight_2.min.0) + -1))
+ assert(0 <= weight_2.extent.0, halide_error_buffer_extents_negative("Input buffer weight_2", 0, weight_2.extent.0))
+ assert((weight_2.min.1 <= 0) && (3 <= (weight_2.extent.1 + weight_2.min.1)), halide_error_access_out_of_bounds("Input buffer weight_2", 1, 0, 2, weight_2.min.1, (weight_2.extent.1 + weight_2.min.1) + -1))
+ assert(0 <= weight_2.extent.1, halide_error_buffer_extents_negative("Input buffer weight_2", 1, weight_2.extent.1))
+ assert((weight_2.min.2 <= 0) && (3 <= (weight_2.extent.2 + weight_2.min.2)), halide_error_access_out_of_bounds("Input buffer weight_2", 2, 0, 2, weight_2.min.2, (weight_2.extent.2 + weight_2.min.2) + -1))
+ assert(0 <= weight_2.extent.2, halide_error_buffer_extents_negative("Input buffer weight_2", 2, weight_2.extent.2))
+ assert((weight_2.min.3 <= output.min.3) && ((output.extent.3 + output.min.3) <= (weight_2.extent.3 + weight_2.min.3)), halide_error_access_out_of_bounds("Input buffer weight_2", 3, output.min.3, (output.extent.3 + output.min.3) + -1, weight_2.min.3, (weight_2.extent.3 + weight_2.min.3) + -1))
+ assert(0 <= weight_2.extent.3, halide_error_buffer_extents_negative("Input buffer weight_2", 3, weight_2.extent.3))
+ assert(bias.stride.0 == 1, halide_error_constraint_violated("bias.stride.0", bias.stride.0, "1", 1))
+ assert(input.stride.0 == 1, halide_error_constraint_violated("input.stride.0", input.stride.0, "1", 1))
+ assert(output.stride.0 == 1, halide_error_constraint_violated("output.stride.0", output.stride.0, "1", 1))
+ assert(weight_1.stride.0 == 1, halide_error_constraint_violated("weight_1.stride.0", weight_1.stride.0, "1", 1))
+ assert(weight_2.stride.0 == 1, halide_error_constraint_violated("weight_2.stride.0", weight_2.stride.0, "1", 1))
+ let input.total_extent.1 = int64(input.extent.1)*int64(input.extent.0)
+ let input.total_extent.2 = input.total_extent.1*int64(input.extent.2)
+ let input.total_extent.3 = input.total_extent.2*int64(input.extent.3)
+ let output.total_extent.1 = int64(output.extent.1)*int64(output.extent.0)
+ let output.total_extent.2 = output.total_extent.1*int64(output.extent.2)
+ let output.total_extent.3 = output.total_extent.2*int64(output.extent.3)
+ let weight_1.total_extent.1 = int64(weight_1.extent.1)*int64(weight_1.extent.0)
+ let weight_1.total_extent.2 = weight_1.total_extent.1*int64(weight_1.extent.2)
+ let weight_1.total_extent.3 = weight_1.total_extent.2*int64(weight_1.extent.3)
+ let weight_2.total_extent.1 = int64(weight_2.extent.1)*int64(weight_2.extent.0)
+ let weight_2.total_extent.2 = weight_2.total_extent.1*int64(weight_2.extent.2)
+ let weight_2.total_extent.3 = weight_2.total_extent.2*int64(weight_2.extent.3)
+ assert(uint64(bias.extent.0) <= (uint64)2147483647, halide_error_buffer_allocation_too_large("bias", uint64(bias.extent.0), (uint64)2147483647))
+ assert(uint64(input.extent.0) <= (uint64)2147483647, halide_error_buffer_allocation_too_large("input", uint64(input.extent.0), (uint64)2147483647))
+ assert((uint64)abs(int64(input.extent.1)*int64(input.stride.1)) <= (uint64)2147483647, halide_error_buffer_allocation_too_large("input", (uint64)abs(int64(input.extent.1)*int64(input.stride.1)), (uint64)2147483647))
+ assert(input.total_extent.1 <= (int64)2147483647, halide_error_buffer_extents_too_large("input", input.total_extent.1, (int64)2147483647))
+ assert((uint64)abs(int64(input.extent.2)*int64(input.stride.2)) <= (uint64)2147483647, halide_error_buffer_allocation_too_large("input", (uint64)abs(int64(input.extent.2)*int64(input.stride.2)), (uint64)2147483647))
+ assert(input.total_extent.2 <= (int64)2147483647, halide_error_buffer_extents_too_large("input", input.total_extent.2, (int64)2147483647))
+ assert((uint64)abs(int64(input.extent.3)*int64(input.stride.3)) <= (uint64)2147483647, halide_error_buffer_allocation_too_large("input", (uint64)abs(int64(input.extent.3)*int64(input.stride.3)), (uint64)2147483647))
+ assert(input.total_extent.3 <= (int64)2147483647, halide_error_buffer_extents_too_large("input", input.total_extent.3, (int64)2147483647))
+ assert(uint64(output.extent.0) <= (uint64)2147483647, halide_error_buffer_allocation_too_large("output", uint64(output.extent.0), (uint64)2147483647))
+ assert((uint64)abs(int64(output.extent.1)*int64(output.stride.1)) <= (uint64)2147483647, halide_error_buffer_allocation_too_large("output", (uint64)abs(int64(output.extent.1)*int64(output.stride.1)), (uint64)2147483647))
+ assert(output.total_extent.1 <= (int64)2147483647, halide_error_buffer_extents_too_large("output", output.total_extent.1, (int64)2147483647))
+ assert((uint64)abs(int64(output.extent.2)*int64(output.stride.2)) <= (uint64)2147483647, halide_error_buffer_allocation_too_large("output", (uint64)abs(int64(output.extent.2)*int64(output.stride.2)), (uint64)2147483647))
+ assert(output.total_extent.2 <= (int64)2147483647, halide_error_buffer_extents_too_large("output", output.total_extent.2, (int64)2147483647))
+ assert((uint64)abs(int64(output.extent.3)*int64(output.stride.3)) <= (uint64)2147483647, halide_error_buffer_allocation_too_large("output", (uint64)abs(int64(output.extent.3)*int64(output.stride.3)), (uint64)2147483647))
+ assert(output.total_extent.3 <= (int64)2147483647, halide_error_buffer_extents_too_large("output", output.total_extent.3, (int64)2147483647))
+ assert(uint64(weight_1.extent.0) <= (uint64)2147483647, halide_error_buffer_allocation_too_large("weight_1", uint64(weight_1.extent.0), (uint64)2147483647))
+ assert((uint64)abs(int64(weight_1.extent.1)*int64(weight_1.stride.1)) <= (uint64)2147483647, halide_error_buffer_allocation_too_large("weight_1", (uint64)abs(int64(weight_1.extent.1)*int64(weight_1.stride.1)), (uint64)2147483647))
+ assert(weight_1.total_extent.1 <= (int64)2147483647, halide_error_buffer_extents_too_large("weight_1", weight_1.total_extent.1, (int64)2147483647))
+ assert((uint64)abs(int64(weight_1.extent.2)*int64(weight_1.stride.2)) <= (uint64)2147483647, halide_error_buffer_allocation_too_large("weight_1", (uint64)abs(int64(weight_1.extent.2)*int64(weight_1.stride.2)), (uint64)2147483647))
+ assert(weight_1.total_extent.2 <= (int64)2147483647, halide_error_buffer_extents_too_large("weight_1", weight_1.total_extent.2, (int64)2147483647))
+ assert((uint64)abs(int64(weight_1.extent.3)*int64(weight_1.stride.3)) <= (uint64)2147483647, halide_error_buffer_allocation_too_large("weight_1", (uint64)abs(int64(weight_1.extent.3)*int64(weight_1.stride.3)), (uint64)2147483647))
+ assert(weight_1.total_extent.3 <= (int64)2147483647, halide_error_buffer_extents_too_large("weight_1", weight_1.total_extent.3, (int64)2147483647))
+ assert(uint64(weight_2.extent.0) <= (uint64)2147483647, halide_error_buffer_allocation_too_large("weight_2", uint64(weight_2.extent.0), (uint64)2147483647))
+ assert((uint64)abs(int64(weight_2.extent.1)*int64(weight_2.stride.1)) <= (uint64)2147483647, halide_error_buffer_allocation_too_large("weight_2", (uint64)abs(int64(weight_2.extent.1)*int64(weight_2.stride.1)), (uint64)2147483647))
+ assert(weight_2.total_extent.1 <= (int64)2147483647, halide_error_buffer_extents_too_large("weight_2", weight_2.total_extent.1, (int64)2147483647))
+ assert((uint64)abs(int64(weight_2.extent.2)*int64(weight_2.stride.2)) <= (uint64)2147483647, halide_error_buffer_allocation_too_large("weight_2", (uint64)abs(int64(weight_2.extent.2)*int64(weight_2.stride.2)), (uint64)2147483647))
+ assert(weight_2.total_extent.2 <= (int64)2147483647, halide_error_buffer_extents_too_large("weight_2", weight_2.total_extent.2, (int64)2147483647))
+ assert((uint64)abs(int64(weight_2.extent.3)*int64(weight_2.stride.3)) <= (uint64)2147483647, halide_error_buffer_allocation_too_large("weight_2", (uint64)abs(int64(weight_2.extent.3)*int64(weight_2.stride.3)), (uint64)2147483647))
+ assert(weight_2.total_extent.3 <= (int64)2147483647, halide_error_buffer_extents_too_large("weight_2", weight_2.total_extent.3, (int64)2147483647))
+ let conv1.y.extent_realized.s = max(((output.extent.2 + 1)/8)*8, (((output.extent.2 + -1)/8)*8) + 2)
+ let conv1.x.extent_realized.s = max(((output.extent.1 + 1)/16)*16, (((output.extent.1 + -1)/16)*16) + 2)
+ let conv1.stride.3 = ((conv1.x.extent_realized.s + 16)*output.extent.0)*(conv1.y.extent_realized.s + 8)
+ allocate conv1[float32 * output.extent.0 * (conv1.x.extent_realized.s + 16) * (conv1.y.extent_realized.s + 8) * 64] if (uint1)0
+ let conv1.buffer = let t325 = (halide_dimension_t *)make_struct(output.min.0, output.extent.0, 1, 0, output.min.1, conv1.x.extent_realized.s + 16, output.extent.0, 0, output.min.2, conv1.y.extent_realized.s + 8, (conv1.x.extent_realized.s + 16)*output.extent.0, 0, 0, 64, conv1.stride.3, 0) in (halide_buffer_t *)_halide_buffer_init((halide_buffer_t *)alloca(size_of_halide_buffer_t()), t325, (void *)reinterpret((uint64)0), (uint64)0, (halide_device_interface_t *)reinterpret((uint64)0), 2, 32, 4, t325, (uint64)0)
+ (void *)register_destructor("halide_device_free_as_destructor", conv1.buffer)
+ produce conv1 {
+  let halide_device_malloc_result$1 = halide_device_malloc(conv1.buffer, (halide_device_interface_t *)halide_opencl_device_interface())
+  assert(halide_device_malloc_result$1 == 0, halide_device_malloc_result$1)
+  let halide_copy_to_device_result = halide_copy_to_device((halide_buffer_t *)bias.buffer, (halide_device_interface_t *)halide_opencl_device_interface())
+  assert(halide_copy_to_device_result == 0, halide_copy_to_device_result)
+  let t151 = (output.extent.2 + 9)/8
+  let t152 = (output.extent.1 + 17)/16
+  let t153 = (conv1.x.extent_realized.s + 16)*output.extent.0
+  for (conv1.s0.z, 0, 64) {
+   let t155 = conv1.s0.z*conv1.stride.3
+   let t154 = conv1.s0.z - bias.min.0
+   let halide_opencl_run_result = halide_opencl_run(opencl[0], "_kernel_conv1_s0_y_yo___block_id_y", t152, t151, 1, 16, 8, 1, 0, (void *)make_struct((int64)8, (int64)8, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)0), (void *)make_struct((void *)bias.buffer, conv1.buffer, (void *)make_struct(output.extent.0), (void *)make_struct(output.extent.1), (void *)make_struct(output.extent.2), (void *)make_struct(t153), (void *)make_struct(t154), (void *)make_struct(t155), (void *)reinterpret((uint64)0)), (void *)make_struct((uint8)1, (uint8)1, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0))
+   assert(halide_opencl_run_result == 0, halide_opencl_run_result)
+  }
+  _halide_buffer_set_device_dirty(conv1.buffer, (uint1)1)
+  let halide_copy_to_device_result$1 = halide_copy_to_device((halide_buffer_t *)input.buffer, (halide_device_interface_t *)halide_opencl_device_interface())
+  assert(halide_copy_to_device_result$1 == 0, halide_copy_to_device_result$1)
+  let halide_copy_to_device_result$3 = halide_copy_to_device((halide_buffer_t *)weight_1.buffer, (halide_device_interface_t *)halide_opencl_device_interface())
+  assert(halide_copy_to_device_result$3 == 0, halide_copy_to_device_result$3)
+  let t182 = input.extent.0 + input.min.0
+  let t183 = input.extent.1 + input.min.1
+  let t184 = input.extent.2 + input.min.2
+  let t185 = input.extent.3 + input.min.3
+  let t186 = output.extent.0 + output.min.0
+  let t187 = input.min.1*input.stride.1
+  let t188 = input.min.3*input.stride.3
+  let t189 = input.min.2*input.stride.2
+  let t190 = weight_1.min.1*weight_1.stride.1
+  let t191 = weight_1.min.3*weight_1.stride.3
+  let t192 = weight_1.min.2*weight_1.stride.2
+  let t193 = max(min(t185, 3), 0)
+  let t194 = max(min(input.min.3, 3), 0)
+  let t195 = (output.extent.1 + 17)/16
+  let t196 = (output.extent.2 + 9)/8
+  let t197 = max(input.min.0, output.min.0)
+  let t198 = min(max(((input.min.1 - output.min.1) + 15)/16, 0), t195)
+  let t199 = min(max(((input.min.2 - output.min.2) + 7)/8, 0), t196)
+  let t158 = max((min(t184 - output.min.2, output.extent.2 + 15) + -6)/8, t199)
+  let t160 = max((min(t183 - output.min.1, output.extent.1 + 23) + -6)/16, t198)
+  let t162 = min(max(t182, t197), t186)
+  let t161 = min(t186, t197)
+  let t165 = (conv1.x.extent_realized.s + 16)*output.extent.0
+  let t174 = t193 - t194
+  let t178 = 3 - t193
+  let t169 = ((t191 + t192) + t190) + weight_1.min.0
+  let t167 = ((t188 + t189) + t187) + input.min.0
+  for (conv1.s1.z, 0, 64) {
+   let t211 = conv1.s1.z*conv1.stride.3
+   let t212 = t161 - output.min.0
+   let t213 = conv1.s1.z*weight_1.stride.3
+   let t207 = max(min(t185, 3), 0)
+   let t202 = t213 - t169
+   let t205 = (((t161 - t188) - t189) - t187) - input.min.0
+   let t209 = t186 - t162
+   let t203 = t162 - t161
+   let t206 = ((((t194 - t191) - t192) - t190) - weight_1.min.0) + t213
+   let t210 = (t162 - output.min.0) + t211
+   let halide_opencl_run_result$1 = halide_opencl_run(opencl[0], "_kernel_conv1_s1_y_yo___block_id_y", t195, t196, 1, 16, 8, 1, 0, (void *)make_struct((int64)8, (int64)8, (int64)8, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)0), (void *)make_struct((void *)weight_1.buffer, (void *)input.buffer, conv1.buffer, (void *)make_struct(t191), (void *)make_struct(t190), (void *)make_struct(t192), (void *)make_struct(t194), (void *)make_struct(t198), (void *)make_struct(t199), (void *)make_struct(t202), (void *)make_struct(t203), (void *)make_struct(t205), (void *)make_struct(t206), (void *)make_struct(t207), (void *)make_struct(t209), (void *)make_struct(t210), (void *)make_struct(t211), (void *)make_struct(t212), (void *)make_struct(t213), (void *)make_struct(weight_1.min.0), (void *)make_struct(weight_1.stride.1), (void *)make_struct(weight_1.stride.2), (void *)make_struct(t158), (void *)make_struct(input.min.1), (void *)make_struct(input.min.2), (void *)make_struct(input.min.3), (void *)make_struct(input.stride.1), (void *)make_struct(input.stride.2), (void *)make_struct(input.stride.3), (void *)make_struct(output.extent.0), (void *)make_struct(output.min.0), (void *)make_struct(output.min.1), (void *)make_struct(output.min.2), (void *)make_struct(input.min.0), (void *)make_struct(t160), (void *)make_struct(t162), (void *)make_struct(t165), (void *)make_struct(t167), (void *)make_struct(t174), (void *)make_struct(t178), (void *)make_struct(t182), (void *)make_struct(t183), (void *)make_struct(t184), (void *)make_struct(t185), (void *)reinterpret((uint64)0)), (void *)make_struct((uint8)1, (uint8)1, (uint8)1, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0))
+   assert(halide_opencl_run_result$1 == 0, halide_opencl_run_result$1)
+  }
+ }
+ let conv2.stride.3 = (((((output.extent.1 + -1)/16)*16) + 16)*output.extent.0)*((((output.extent.2 + -1)/8)*8) + 8)
+ allocate conv2[float32 * output.extent.0 * ((((output.extent.1 + -1)/16)*16) + 16) * ((((output.extent.2 + -1)/8)*8) + 8) * output.extent.3] if (uint1)0
+ let conv2.buffer = let t326 = (halide_dimension_t *)make_struct(output.min.0, output.extent.0, 1, 0, output.min.1, (((output.extent.1 + -1)/16)*16) + 16, output.extent.0, 0, output.min.2, (((output.extent.2 + -1)/8)*8) + 8, ((((output.extent.1 + -1)/16)*16) + 16)*output.extent.0, 0, output.min.3, output.extent.3, conv2.stride.3, 0) in (halide_buffer_t *)_halide_buffer_init((halide_buffer_t *)alloca(size_of_halide_buffer_t()), t326, (void *)reinterpret((uint64)0), (uint64)0, (halide_device_interface_t *)reinterpret((uint64)0), 2, 32, 4, t326, (uint64)0)
+ (void *)register_destructor("halide_device_free_as_destructor", conv2.buffer)
+ produce conv2 {
+  let halide_device_malloc_result = halide_device_malloc(conv2.buffer, (halide_device_interface_t *)halide_opencl_device_interface())
+  assert(halide_device_malloc_result == 0, halide_device_malloc_result)
+  let t282 = (output.extent.2 + 7)/8
+  let t283 = (output.extent.1 + 15)/16
+  let t285 = ((((output.extent.1 + -1)/16)*16) + 16)*output.extent.0
+  let t284 = output.min.3 - bias.min.0
+  for (conv2.s0.z.rebased, 0, output.extent.3) {
+   let t287 = conv2.s0.z.rebased*conv2.stride.3
+   let t286 = conv2.s0.z.rebased + t284
+   let halide_opencl_run_result$2 = halide_opencl_run(opencl[0], "_kernel_conv2_s0_y_yo___block_id_y", t283, t282, 1, 16, 8, 1, 0, (void *)make_struct((int64)8, (int64)8, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)0), (void *)make_struct((void *)bias.buffer, conv2.buffer, (void *)make_struct(output.extent.0), (void *)make_struct(output.extent.1), (void *)make_struct(output.extent.2), (void *)make_struct(t285), (void *)make_struct(t286), (void *)make_struct(t287), (void *)reinterpret((uint64)0)), (void *)make_struct((uint8)1, (uint8)1, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0))
+   assert(halide_opencl_run_result$2 == 0, halide_opencl_run_result$2)
+  }
+  _halide_buffer_set_device_dirty(conv2.buffer, (uint1)1)
+  consume conv1 {
+   let halide_copy_to_device_result$4 = halide_copy_to_device((halide_buffer_t *)weight_2.buffer, (halide_device_interface_t *)halide_opencl_device_interface())
+   assert(halide_copy_to_device_result$4 == 0, halide_copy_to_device_result$4)
+   let t289 = (output.extent.2 + 7)/8
+   let t290 = (output.extent.1 + 15)/16
+   let t291 = ((((output.extent.1 + -1)/16)*16) + 16)*output.extent.0
+   let t292 = (conv1.x.extent_realized.s + 16)*output.extent.0
+   let t294 = ((weight_2.min.1*weight_2.stride.1) + ((weight_2.min.3*weight_2.stride.3) + (weight_2.min.2*weight_2.stride.2))) + weight_2.min.0
+   for (conv2.s1.z.rebased, 0, output.extent.3) {
+    let t295 = conv2.s1.z.rebased*conv2.stride.3
+    let t296 = ((conv2.s1.z.rebased + output.min.3)*weight_2.stride.3) - t294
+    let halide_opencl_run_result$3 = halide_opencl_run(opencl[0], "_kernel_conv2_s1_y_yo___block_id_y", t290, t289, 1, 16, 8, 1, 0, (void *)make_struct((int64)8, (int64)8, (int64)8, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)0), (void *)make_struct(conv1.buffer, conv2.buffer, (void *)weight_2.buffer, (void *)make_struct(conv1.stride.3), (void *)make_struct(output.extent.0), (void *)make_struct(t291), (void *)make_struct(t292), (void *)make_struct(t295), (void *)make_struct(t296), (void *)make_struct(weight_2.stride.1), (void *)make_struct(weight_2.stride.2), (void *)reinterpret((uint64)0)), (void *)make_struct((uint8)1, (uint8)1, (uint8)1, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0))
+    assert(halide_opencl_run_result$3 == 0, halide_opencl_run_result$3)
+   }
+   let halide_device_free_result$1 = halide_device_free(conv1.buffer)
+   assert(halide_device_free_result$1 == 0, halide_device_free_result$1)
+   free conv1
+  }
+ }
+ produce output {
+  consume conv2 {
+   let halide_copy_to_device_result$2 = halide_copy_to_device((halide_buffer_t *)output.buffer, (halide_device_interface_t *)halide_opencl_device_interface())
+   assert(halide_copy_to_device_result$2 == 0, halide_copy_to_device_result$2)
+   let t307 = (output.extent.2 + 7)/8
+   let t308 = (output.extent.1 + 15)/16
+   let t309 = ((((output.extent.1 + -1)/16)*16) + 16)*output.extent.0
+   let t310 = (((output.min.0 - (output.min.3*output.stride.3)) - (output.min.2*output.stride.2)) - (output.min.1*output.stride.1)) - output.min.0
+   for (output.s0.z.rebased, 0, output.extent.3) {
+    let t311 = conv2.stride.3*output.s0.z.rebased
+    let t312 = ((output.min.3 + output.s0.z.rebased)*output.stride.3) + t310
+    let halide_opencl_run_result$4 = halide_opencl_run(opencl[0], "_kernel_output_s0_y_yo___block_id_y", t308, t307, 1, 16, 8, 1, 0, (void *)make_struct((int64)8, (int64)8, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)4, (int64)0), (void *)make_struct(conv2.buffer, (void *)output.buffer, (void *)make_struct(output.extent.0), (void *)make_struct(output.extent.1), (void *)make_struct(output.extent.2), (void *)make_struct(output.min.1), (void *)make_struct(output.min.2), (void *)make_struct(output.stride.1), (void *)make_struct(output.stride.2), (void *)make_struct(t309), (void *)make_struct(t311), (void *)make_struct(t312), (void *)reinterpret((uint64)0)), (void *)make_struct((uint8)1, (uint8)1, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0, (uint8)0))
+    assert(halide_opencl_run_result$4 == 0, halide_opencl_run_result$4)
+   }
+   _halide_buffer_set_device_dirty((halide_buffer_t *)output.buffer, (uint1)1)
+   let halide_device_free_result = halide_device_free(conv2.buffer)
+   assert(halide_device_free_result == 0, halide_device_free_result)
+   free conv2
+  }
+ }
+}
+}
+
+
