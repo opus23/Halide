@@ -23,7 +23,7 @@
 #include <iostream>
 
 int main(int argc, char **argv) {
-    int batch_size = 32;
+    int batch_size = 1;
     int input_channel = 3; 
     int output_channel = 64;
     int width = 256;
@@ -35,16 +35,16 @@ int main(int argc, char **argv) {
     Halide::Runtime::Buffer<float> input(batch_size,width,height,input_channel);
     Halide::Runtime::Buffer<float> bias(output_channel);
     //Halide::Runtime::Buffer<float> bias(batch_size,width,height,output_channel);
-    Halide::Runtime::Buffer<float> weight_1(input_channel,size,7,output_channel);
+    Halide::Runtime::Buffer<float> weight_1(input_channel,size,size,output_channel);
     Halide::Runtime::Buffer<float> weight_2(output_channel,small_size,small_size,output_channel);
     Halide::Runtime::Buffer<float> output(batch_size,width, height,output_channel);
     
-    std::cout << (rand()%10) << "\n";
+    //std::cout << (rand()%10) << "\n";
     for (int c = 0; c < batch_size; c++) {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
 		for (int z = 0; z < input_channel; z++){
-                    input(c, x, y, z) = (rand()%10);
+                    input(c, x, y, z) = 1;//(rand()%10);
 		    //std::cout << input(c,x,y,z) << "\n";		    
 		}
             }
@@ -54,7 +54,7 @@ int main(int argc, char **argv) {
     //    for (int x = 0; x < height; x++) {
     //        for (int y = 0; y < width; y++) {
 		for (int z = 0; z < output_channel; z++){
-                    bias(z) = rand()%10;
+                    bias(z) = 1;//rand()%10;
 		}
   //          }
     //    }
@@ -64,7 +64,7 @@ int main(int argc, char **argv) {
         for (int z = 0; z < size; z++) {
             for (int y = 0; y < size; y++) {
             	for (int x = 0; x < input_channel; x++) {
-                    weight_1(x, y, z, c) = rand()%10;
+                    weight_1(x, y, z, c) = 1;//rand()%10;
                 }
 	    }
 	}
@@ -75,7 +75,7 @@ int main(int argc, char **argv) {
         for (int z = 0; z < small_size; z++) {
             for (int y = 0; y < small_size; y++) {
             	for (int x = 0; x < output_channel; x++) {
-                    weight_2(x, y, z, c) = rand()%10;
+                    weight_2(x, y, z, c) = 1;//rand()%10;
                 }
 	    }
 	}

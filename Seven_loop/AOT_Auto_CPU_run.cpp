@@ -21,11 +21,11 @@
 #include <string.h>
 
 int main(int argc, char **argv) {
-    int batch_size = 32;
+    int batch_size = 1;
     int input_channel = 3; 
     int output_channel = 64;
-    int width = 400;
-    int height = 600;
+    int width = 256;
+    int height = 512;
     int size = 7;
     int small_size = 3; 
 
@@ -79,11 +79,11 @@ int main(int argc, char **argv) {
 
     // Run each version of the codes (with no auto-schedule and with
     // auto-schedule) multiple times for benchmarking.
-    /*double auto_schedule_off = Halide::Tools::benchmark(1, 2, [&]() {
+    double auto_schedule_off = Halide::Tools::benchmark(1, 2, [&]() {
         auto_schedule_false(input, bias, weight_1, weight_2, output);
     });
     printf("Manual schedule: %gms\n", auto_schedule_off * 1e3);
-*/
+
     double auto_schedule_on = Halide::Tools::benchmark(1, 2, [&]() {
         auto_schedule_true(input, bias, weight_1, weight_2, output);
     });

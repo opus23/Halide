@@ -9,21 +9,19 @@
 #endif
 
 using namespace Halide;
-//#include "halide_image_io.h"
-//using namespace Halide::Tools;
 using namespace Halide::Internal;
 
 class ConvolutionLayer : public Generator<ConvolutionLayer>{
 	public:
         // Declare some Vars to use below
 	Var c, x, y, z;
-	int width = 400;
-	int height = 600;
+	int width = 256;
+	int height = 512;
 	int size = 7;
 	int small_size = 3;
 	int input_channel = 3;
 	int output_channel = 64;
-	int batch_size = 32;
+	int batch_size = 1;
 
 	Input<Buffer<float,4>> input{"input"};
 	Input<Buffer<float,1>> bias{"bias"};
@@ -33,8 +31,11 @@ class ConvolutionLayer : public Generator<ConvolutionLayer>{
 
 	void generate(){
 
+
+	//------------------------Algorithm
+
 	//first layer
-	Func boundary, conv1, conv2;
+	Func boundary, conv1, conv2, relu;
 	boundary = BoundaryConditions::repeat_edge(input);
 
     	RDom r(0, size, 0, size, 0, input_channel);
@@ -46,50 +47,43 @@ class ConvolutionLayer : public Generator<ConvolutionLayer>{
     	conv2(c,x,y,z) =  bias(z);
     	conv2(c,x,y,z) += conv1(c ,x+R.x, y+R.y, R.z) * weight_2(R.z, R.x, R.y, z) / (size*size*output_channel);
 
-	output(c,x,y,z) = max(0,conv2(c,x,y,z));
+	relu(c,x,y,z) = max(0,conv2(c,x,y,z));
+
+	output(c,x,y,z) = relu(c,x,y,z);
 
 	
-	//const int vec = natural_vector_size<float>();
-	// scheduling
+	
+	//------------------------Scheduling
 
+	//autoscheduler just requires the size of buffers.
 	if (auto_schedule){
 		input.set_estimates({{0,batch_size},{0,width},{0,height},{0,input_channel}});
 		bias.set_estimates({{0,output_channel}});
-		//bias.set_estimates({{0,batch_size},{0,width},{0,height},{0,output_channel}});
 		weight_1.set_estimates({{0,input_channel},{0,size},{0,size},{0,output_channel}});
 		weight_2.set_estimates({{0,output_channel},{0,small_size},{0,small_size},{0,output_channel}});
 		output.set_estimates({{0,batch_size},{0,width},{0,height},{0,output_channel}});
-
 	}
 
 	else {
-	Var xi, xo, yi, yo, A, B, C;
+	Var xi, xo, yi, yo, ci, co, A, B, C;
+
+
 	conv1.compute_root()
-			//.reorder(z, y, x, c)
 			.update()
 			.vectorize(x,25)
-			//.split(y,yo,yi,2)	
-			//.fuse(yi, x, A)
 			.parallel(y)
 			.parallel(z)
-			//.unroll(r.x)
-			//.unroll(r.y)
 			;
+	conv1.print_loop_nest();
 
 	conv2.compute_root()
-			//.reorder(z, y, x, c)
 			.update()
 			.vectorize(x,25)
-			//.split(y,yo,yi,2)	
-			//.fuse(yi, x, B)
 			.parallel(y)
 			.parallel(z)
-			//.unroll(R.x)
-			//.unroll(R.y)
 			;
 
-	output.compute_root();
-
+	relu.compute_root();
 	}
 	} //generate
 }; // class

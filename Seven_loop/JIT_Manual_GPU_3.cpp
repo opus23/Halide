@@ -33,70 +33,55 @@ int main(int argc, char **argv) {
 	Var c("c"), x("x"), y("y"), z("z");
 	int size = 7;
 	int small_size = 3;
-	int batch_size = 32;
+	int batch_size = 1;
 	int width = 256;
 	int height = 512;
 	int input_channel = 3;
 	int output_channel = 64;
     	// Load a grayscale image to use as an input
-    	Buffer<float> input(batch_size,width,height,input_channel,"input"); // load_and_convert_image("images/rgb.png");
+    Buffer<float> input(batch_size,width,height,input_channel,"input"); 
 	Buffer<float> bias(output_channel,"bias");
-	//Buffer<float> bias(batch_size,width,height,output_channel,"bias");
-    	Buffer<float> weight_1(input_channel, size, size, output_channel, "weight_1");
-    	Buffer<float> weight_2(output_channel, small_size, small_size, output_channel, "weight_2");
-    	const WeightShape wei_1 = {3, 7, 7, 64};
-    	const WeightShape wei_2 = {64, 3, 3, 64};
-    	//const WeightShape wei_3 = {64, 7, 7, 64};
-	//Buffer<float> output(batch_size,width,height,output_channel);
-
-	//printf("\nThe input image size is (%d, %d, %d)", input.width(), input.height(), input.channels());
+    Buffer<float> weight_1(input_channel, size, size, output_channel, "weight_1");
+    Buffer<float> weight_2(output_channel, small_size, small_size, output_channel, "weight_2");
+    const WeightShape wei_1 = {3, 7, 7, 64};
+    const WeightShape wei_2 = {64, 3, 3, 64};
 	
-	auto start = std::chrono::system_clock::now();
-	//Buffer<float> input;
 	for (int w = 0; w < batch_size; w++){
-	 for (int a = 0; a < width; a++){
+	    for (int a = 0; a < width; a++){
             for (int b = 0; b < height ; b++){
             	for (int c = 0; c < 3; c++){
 	        	input(w,a,b,c) =  (rand() % 10);
+			    }
+			}
 		}
-	    }
+    }
+    for (int c = 0; c < 64; c++){
+	   	bias(c) =  (rand() % 10);
 	}
-        }
-	//for (int w = 0; w < batch_size; w++){
-	// for (int a = 0; a < width; a++){
-        //    for (int b = 0; b < height ; b++){
-            	for (int c = 0; c < 64; c++){
-	        	bias(c) =  (rand() % 10);
-		}
-	//    }
-	// }
-	//}
 
 	for (int a = 0; a < input_channel; a++){
             for (int b = 0; b < size; b++){
             	for (int c = 0; c < size; c++){
             	    for (int d = 0; d < output_channel; d++){
-		//weight is 1 for identification
-	        	weight_1(a,b,c,d) = (rand() % 10);
+				       	weight_1(a,b,c,d) = (rand() % 10);
                     }
-		}
-	    }
-        }
+				}
+			}
+    }
 
 	for (int a = 0; a < output_channel; a++){
             for (int b = 0; b < small_size; b++){
             	for (int c = 0; c < small_size; c++){
             	    for (int d = 0; d < output_channel; d++){
-		//weight is 1 for identification
-	        	weight_2(a,b,c,d) = (rand() % 10);
-                    }
-		}
-	    }
-        }
+				    	weight_2(a,b,c,d) = (rand() % 10);
+		            }
+				}
+			}
+    }
 
-	auto end = std::chrono::system_clock::now();
-	auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end-start);
-	std::cout << "data load : " << latency.count() << " msec \n";
+
+
+	//-----------------------Algorithm
 
 	Func boundary, conv1, conv2, relu;
 	boundary = BoundaryConditions::repeat_edge(input);
@@ -113,7 +98,9 @@ int main(int argc, char **argv) {
 
 	relu(c,x,y,z) = max(0,conv2(c,x,y,z));
 
-	//scheduling
+
+
+	//-----------------------Scheduling
 	
 	Var xi, xo, yi, yo, A, B, C;
 
@@ -123,6 +110,7 @@ int main(int argc, char **argv) {
 
 	Var xi, xo, yi, yo, A, B, C, xii, xoo;
 
+	//This schedule is produced by autoscheduler li2018
 	boundary.compute_root()
 		.split(_1,xi,xo,64, Halide::TailStrategy::ShiftInwards)
 		.fuse(_0,xi,_0)
@@ -185,6 +173,7 @@ int main(int argc, char **argv) {
 		;
 
 
+	//This schedule is produced by Hyunjun
 /*		conv1.compute_root()
 			.gpu_tile(x,y,xo,yo,xi,yi,16,8)
 			.update()
@@ -207,9 +196,6 @@ int main(int argc, char **argv) {
 		printf("\nGPU Target Hardware : %s\n", target.to_string().c_str());
 		relu.compile_jit(target);
 
-		//std::vector<Argument> args;
-		//args.push_back(arg);
-		//relu.compile_to_llvm_assembly("ll.ll",args,"relu",target);
 	}
 	else{
 		conv1
@@ -217,63 +203,40 @@ int main(int argc, char **argv) {
 			.compute_root()
 			.update()
 			.vectorize(x,25)
-			//.split(y,yo,yi,2)	
-			//.fuse(yi, x, A)
 			.parallel(y)
 			.parallel(z)
-			//.unroll(r.x)
-			//.unroll(r.y)
 			;
 		
 		conv2	
-			// Human opt
 			.compute_root()
 			.update()
 			.vectorize(x,25)
-			//.split(y,yo,yi,2)	
-			//.fuse(yi, x, B)
 			.parallel(y)
 			.parallel(z)
-			//.unroll(R.x)
-			//.unroll(R.y)
-			
-			//.tile(x,y,xi,yi,40,60)
-			//.reorder(z,y,x)
-			//.split(x,xo,xi,25)
-			//.unroll(xi)
 			;
 	relu
 		.compute_root()
-		//.reorder(x,z,y)
-		//.split(x,xo,xi,8)
-		//.vectorize(xi)
-		//.parallel(y)
 		;
 	}
 		
 
     float avg = 0;	
     int epoch = 5;
-    Buffer<float> output(32,256,512,64);
+    Buffer<float> output(1,256,512,64);
 
 
     for (unsigned a = 0; a < epoch; a++){
 
-        //auto start = std::chrono::system_clock::now();
-        double t1 = current_time();
-	//Buffer<float> halide_result = relu.realize(output);  //({input.width(), input.height(), input.channels()});
-	relu.realize(output);  //({input.width(), input.height(), input.channels()});
+    double t1 = current_time();
+	relu.realize(output); 
 	output.copy_to_host();
 	std::cout << "Result : " << output(1,1,1,1) << "\n";
-	//auto end = std::chrono::system_clock::now();
-	//auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end-start);
-        double t2 = current_time();
+    double t2 = current_time();
 	double elapsed = (t2-t1);
 	printf("%1.4f millisecond\n", elapsed);
-	//d::cout << latency.count() << " msec \n";
         if (a != 0)	avg += elapsed;
         }
-    	conv2.print_loop_nest();
+    	//conv2.print_loop_nest();
         if (epoch != 1)	std::cout << "Average latency = " << avg/(epoch-1) << "msec\n";
 	return 0;
 }
