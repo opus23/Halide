@@ -1,2 +1,4 @@
-cd Seven_loop
-make 1
+
+Halide\n
+JIT vs AOT\n
+CPU vs GPU
