@@ -1,4 +1,2 @@
 
-Halide\n
-JIT vs AOT\n
-CPU vs GPU
+Halide		JIT vs AOT		CPU vs GPU
